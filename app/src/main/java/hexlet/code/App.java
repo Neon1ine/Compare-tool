@@ -23,7 +23,7 @@ public class App implements Callable {
 
     @Override
     public String call() throws Exception {
-        String diff = "some difference";
+        String diff = Differ.findDiff();
         System.out.println(diff);
         return diff;
     }
