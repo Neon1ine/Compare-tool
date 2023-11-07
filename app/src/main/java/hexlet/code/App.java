@@ -2,6 +2,8 @@ package hexlet.code;
 
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
@@ -9,15 +11,25 @@ import java.util.concurrent.Callable;
         description = "Compares two configuration files and shows a difference.")
 
 public class App implements Callable {
-    public static void main(String[] args) {
-        int exitCode = new CommandLine(new App()).execute(args);
-        System.exit(exitCode);
-    }
+    @Parameters(paramLabel = "filepath1", description = "path to first file")
+    private String filepath1;
+
+    @Parameters(paramLabel = "filepath2", description = "path to second file")
+    private String filepath2;
+
+    @Option(names = {"-f", "--format"}, description = "output format [default: stylish]",
+            defaultValue = "stylish", paramLabel = "format")
+    private String format;
 
     @Override
-    public String call() {
+    public String call() throws Exception {
         String diff = "some difference";
         System.out.println(diff);
         return diff;
+    }
+
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new App()).execute(args);
+        System.exit(exitCode);
     }
 }
