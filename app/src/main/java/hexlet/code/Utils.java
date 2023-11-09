@@ -8,32 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Utils {
-    public static final String firstFilePath = "./src/test/resources/file1.json";
-    public static final String secondFilePath = "./src/test/resources/file2.json";
+    private static final Path firstJsonFilePath = Paths.get("./src/test/resources/file1.json");
+    private static final Path secondJsonFilePath = Paths.get("./src/test/resources/file2.json");
 
-    public static Map<String, Object> getContentsOfFile(int n) throws Exception{
-        Path path;
-        switch (n) {
-            case 1: {
-                path = Paths.get(firstFilePath);
-                break;
-            }
-            case 2: {
-                path = Paths.get(secondFilePath);
-                break;
-            }
-            default: throw new Exception("File number '" + n + "' does not exists");
-        }
-
+    public static Map<String, Object> parse(Path path) throws Exception {
         if (!Files.exists(path)) {
             throw new Exception("File '" + path + "' does not exist");
         }
 
-        List<String> lines = Files.readAllLines(path);
-        return castFileContentsIntoMap(lines);
+        return castFileContentsIntoMap(path);
     }
 
-    public static Map<String, Object> castFileContentsIntoMap(List<String>  lines) throws Exception {
+    public static Map<String, Object> castFileContentsIntoMap(Path path) throws Exception {
+        List<String> lines = Files.readAllLines(path);
         if (lines.isEmpty()) throw new Exception("nothing to read in file");
 
         Map<String, Object> result = new HashMap<>();
@@ -53,19 +40,22 @@ public class Utils {
                     strValue = strValue.substring(0, strValue.length() - 1);
                 }
             }
-
-            if (strValue.equals("false")) {
-                result.put(key, false);
-            } else if (strValue.equals("true")) {
-                result.put(key, true);
-            } else if (isNumeric(strValue)) {
-                result.put(key, Integer.parseInt(strValue));
-            } else {
-                result.put(key, strValue);
-            }
+            result.put(key, castStringIntoObject(strValue));
         }
 
         return result;
+    }
+
+    private static Object castStringIntoObject(String str) {
+        if (str.equals("false")) {
+            return false;
+        } else if (str.equals("true")) {
+            return true;
+        } else if (isNumeric(str)) {
+            return Integer.parseInt(str);
+        } else {
+            return str;
+        }
     }
 
     private static boolean isNumeric(String str) {
@@ -76,4 +66,13 @@ public class Utils {
             return false;
         }
     }
+
+    public static Path getFirstJsonFilePath() {
+        return firstJsonFilePath;
+    }
+
+    public static Path getSecondJsonFilePath() {
+        return secondJsonFilePath;
+    }
+
 }

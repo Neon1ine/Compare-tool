@@ -2,25 +2,24 @@ package hexlet.code;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
+import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DifferTest {
-    private static Map<String, Object> contentsOfFile1;
-    private static Map<String, Object> contentsOfFile2;
+    private static Path path1;
+    private static Path path2;
 
     @BeforeAll
-    public static void beforeAll() throws Exception {
-        contentsOfFile1 = Utils.getContentsOfFile(1);
-        contentsOfFile2 = Utils.getContentsOfFile(2);
+    public static void beforeAll() {
+        path1 = Utils.getFirstJsonFilePath();
+        path2 = Utils.getSecondJsonFilePath();
     }
 
-    /*@Test
-    public void testDiff() {
+    @Test
+    public void testGenerate() throws Exception {
         String expected = """
                 {
                   - follow: false
@@ -29,10 +28,9 @@ public class DifferTest {
                   - timeout: 50
                   + timeout: 20
                   + verbose: true
-                }
-                """;
-        assertThat(Differ.findDiff(contentsOfFile1, contentsOfFile2)).isEqualTo(expected);
-    }*/
+                }""";
+        assertThat(Differ.generate(path1, path2)).isEqualTo(expected);
+    }
 
     @Test
     public void testCastingStringToMap1() throws Exception {
@@ -42,10 +40,7 @@ public class DifferTest {
         expected.put("proxy", "123.234.53.22");
         expected.put("follow", false);
 
-        List<String> fileLines = List.of("{", "  \"host\": \"hexlet.io\"", "  \"timeout\": 50",
-                "  \"proxy\": \"123.234.53.22\"", "  \"follow\": false", "}");
-
-        assertThat(Utils.castFileContentsIntoMap(fileLines)).isEqualTo(expected);
+        assertThat(Utils.castFileContentsIntoMap(path1)).isEqualTo(expected);
     }
 
     @Test
@@ -55,9 +50,6 @@ public class DifferTest {
         expected.put("verbose", true);
         expected.put("host", "hexlet.io");
 
-        List<String> fileLines = List.of("{", "  \"timeout\": 20",
-                "  \"verbose\": true", "  \"host\": \"hexlet.io\"", "}");
-
-        assertThat(Utils.castFileContentsIntoMap(fileLines)).isEqualTo(expected);
+        assertThat(Utils.castFileContentsIntoMap(path2)).isEqualTo(expected);
     }
 }
