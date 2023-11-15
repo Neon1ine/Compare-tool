@@ -1,22 +1,17 @@
 package hexlet.code;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DifferTest {
-    private static Path path1;
-    private static Path path2;
 
-    @BeforeAll
-    public static void beforeAll() {
-        path1 = Utils.getFirstJsonFilePath();
-        path2 = Utils.getSecondJsonFilePath();
-    }
+    private static final Path FIRST_JSON_FILE_PATH = Paths.get("./src/test/resources/file1.json");
+    private static final Path SECOND_JSON_FILE_PATH = Paths.get("./src/test/resources/file2.json");
 
     @Test
     public void testGenerate() throws Exception {
@@ -29,7 +24,7 @@ public class DifferTest {
                   + timeout: 20
                   + verbose: true
                 }""";
-        assertThat(Differ.generate(path1, path2)).isEqualTo(expected);
+        assertThat(Differ.generate(FIRST_JSON_FILE_PATH, SECOND_JSON_FILE_PATH)).isEqualTo(expected);
     }
 
     @Test
@@ -40,7 +35,7 @@ public class DifferTest {
         expected.put("proxy", "123.234.53.22");
         expected.put("follow", false);
 
-        assertThat(Utils.castFileContentsIntoMap(path1)).isEqualTo(expected);
+        assertThat(Utils.castFileContentsIntoMap(FIRST_JSON_FILE_PATH)).isEqualTo(expected);
     }
 
     @Test
@@ -50,6 +45,6 @@ public class DifferTest {
         expected.put("verbose", true);
         expected.put("host", "hexlet.io");
 
-        assertThat(Utils.castFileContentsIntoMap(path2)).isEqualTo(expected);
+        assertThat(Utils.castFileContentsIntoMap(SECOND_JSON_FILE_PATH)).isEqualTo(expected);
     }
 }

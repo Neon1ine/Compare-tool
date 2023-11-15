@@ -44,7 +44,7 @@ public class App implements Callable {
     }
 
     private static Path fixPath(String path) {
-        String newPath = "./src/test/resources/" + path;
+        String newPath = "./src/main/resources/" + path;
         return Paths.get(newPath).toAbsolutePath().normalize();
     }
 }

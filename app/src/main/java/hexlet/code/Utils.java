@@ -1,15 +1,12 @@
 package hexlet.code;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Utils {
-    private static final Path firstJsonFilePath = Paths.get("./src/test/resources/file1.json");
-    private static final Path secondJsonFilePath = Paths.get("./src/test/resources/file2.json");
 
     public static Map<String, Object> parse(Path path) throws Exception {
         if (!Files.exists(path)) {
@@ -21,7 +18,9 @@ public class Utils {
 
     public static Map<String, Object> castFileContentsIntoMap(Path path) throws Exception {
         List<String> lines = Files.readAllLines(path);
-        if (lines.isEmpty()) throw new Exception("nothing to read in file");
+        if (lines.isEmpty()) {
+            throw new Exception("nothing to read in file");
+        }
 
         Map<String, Object> result = new HashMap<>();
 
@@ -65,14 +64,6 @@ public class Utils {
         } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-    public static Path getFirstJsonFilePath() {
-        return firstJsonFilePath;
-    }
-
-    public static Path getSecondJsonFilePath() {
-        return secondJsonFilePath;
     }
 
 }

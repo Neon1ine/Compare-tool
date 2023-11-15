@@ -6,3 +6,5 @@ test:
 
 run:
 	./gradlew run
+
+.PHONY: build
