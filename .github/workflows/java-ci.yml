@@ -13,11 +13,14 @@ jobs:
         with:
           java-version: '20'
           distribution: 'temurin'
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v2
         with:
           arguments: build
           build-root-directory: app
+      - name: Generate code coverage report
+        run: |
+          cd $GITHUB_WORKSPACE/app
+          make report
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:
