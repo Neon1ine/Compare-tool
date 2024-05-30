@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,10 +13,10 @@ public class DifferTest {
 
     private static final Path FIRST_JSON_FILE_PATH = Paths.get("./src/test/resources/file1.json");
     private static final Path SECOND_JSON_FILE_PATH = Paths.get("./src/test/resources/file2.json");
+    private static final Path FIRST_YAML_FILE_PATH = Paths.get("./src/test/resources/file1.yml");
+    private static final Path SECOND_YAML_FILE_PATH = Paths.get("./src/test/resources/file2.yml");
 
-    @Test
-    public void testGenerate() throws Exception {
-        String expected = """
+    private static final String EXPECTED_DIFF = """
                 {
                   - follow: false
                     host: hexlet.io
@@ -24,27 +25,41 @@ public class DifferTest {
                   + timeout: 20
                   + verbose: true
                 }""";
-        assertThat(Differ.generate(FIRST_JSON_FILE_PATH, SECOND_JSON_FILE_PATH)).isEqualTo(expected);
+
+    @Test
+    public void testGenerateJsonFile() throws Exception {
+        assertThat(Differ.generate(FIRST_JSON_FILE_PATH, SECOND_JSON_FILE_PATH)).isEqualTo(EXPECTED_DIFF);
+    }
+
+    @Test
+    public void testGenerateJsonYaml() throws Exception {
+        assertThat(Differ.generate(FIRST_YAML_FILE_PATH, SECOND_YAML_FILE_PATH)).isEqualTo(EXPECTED_DIFF);
+    }
+
+    private static Map<String, Object> FIRST_FILE_CONTENTS;
+    private static Map<String, Object> SECOND_FILE_CONTENTS;
+
+    @BeforeAll
+    public static void setupMaps() {
+        FIRST_FILE_CONTENTS = new HashMap<>();
+        FIRST_FILE_CONTENTS.put("host", "hexlet.io");
+        FIRST_FILE_CONTENTS.put("timeout", 50);
+        FIRST_FILE_CONTENTS.put("proxy", "123.234.53.22");
+        FIRST_FILE_CONTENTS.put("follow", false);
+
+        SECOND_FILE_CONTENTS = new HashMap<>();
+        SECOND_FILE_CONTENTS.put("timeout", 20);
+        SECOND_FILE_CONTENTS.put("verbose", true);
+        SECOND_FILE_CONTENTS.put("host", "hexlet.io");
     }
 
     @Test
     public void testCastingStringToMap1() throws Exception {
-        Map<String, Object> expected = new HashMap<>();
-        expected.put("host", "hexlet.io");
-        expected.put("timeout", 50);
-        expected.put("proxy", "123.234.53.22");
-        expected.put("follow", false);
-
-        assertThat(Utils.castFileContentsIntoMap(FIRST_JSON_FILE_PATH)).isEqualTo(expected);
+        assertThat(Utils.castFileContentsIntoMap(FIRST_JSON_FILE_PATH)).isEqualTo(FIRST_FILE_CONTENTS);
     }
 
     @Test
     public void testCastingStringToMap2() throws Exception {
-        Map<String, Object> expected = new HashMap<>();
-        expected.put("timeout", 20);
-        expected.put("verbose", true);
-        expected.put("host", "hexlet.io");
-
-        assertThat(Utils.castFileContentsIntoMap(SECOND_JSON_FILE_PATH)).isEqualTo(expected);
+        assertThat(Utils.castFileContentsIntoMap(SECOND_JSON_FILE_PATH)).isEqualTo(SECOND_FILE_CONTENTS);
     }
 }
