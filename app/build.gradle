@@ -33,10 +33,6 @@ jacocoTestReport {
         xml.required = true
         html.required = true
     }
-    reports {
-        xml.destination file("build/reports/jacoco/xml/jacocoTestReport.xml")
-        html.destination file("build/reports/jacoco/html")
-    }
 }
 
 testlogger {
