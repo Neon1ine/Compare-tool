@@ -27,14 +27,14 @@ jobs:
           make install
           make build
       - name: Generate code coverage report
+        run: |
           cd $GITHUB_WORKSPACE/app
           make report
-        run: |
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:
-          CC_TEST_REPORTER_ID: "308bbd0b1b79d9fb3ee8dadfc58c6dcc6a0200b5cd589cafaa5c007ef11062ec"
-          JACOCO_SOURCE_PATH: "${{github.workspace}}/app/src/main/java"
+          CC_TEST_REPORTER_ID: 308bbd0b1b79d9fb3ee8dadfc58c6dcc6a0200b5cd589cafaa5c007ef11062ec
+          JACOCO_SOURCE_PATH: ${{github.workspace}}/app/src/main/java
         with:
           coverageCommand: make report
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
