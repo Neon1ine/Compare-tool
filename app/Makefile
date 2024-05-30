@@ -22,4 +22,7 @@ report:
 test:
 	./gradlew test
 
+checkStyle:
+	./gradlew checkstyleMain
+
 .PHONY: build

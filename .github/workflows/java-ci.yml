@@ -9,31 +9,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-java@v3
         with:
           java-version: '20'
           distribution: 'temurin'
+
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 8.3
-      - name: Prepare directory
+
+      - name: Check style & Generate code coverage report
         run: |
-          cd $GITHUB_WORKSPACE/app
+          cd $GITHUB_WORKSPACE/app/
           chmod +x ./gradlew
           make setup
           make clean
           make build
           make install
+          make checkStyle
           make build
-      - name: Generate code coverage report
-        run: |
-          cd $GITHUB_WORKSPACE/app
           make report
+
       - name: Publish code coverage
         uses: paambaati/codeclimate-action@v5.0.0
         env:
           CC_TEST_REPORTER_ID: 308bbd0b1b79d9fb3ee8dadfc58c6dcc6a0200b5cd589cafaa5c007ef11062ec
           JACOCO_SOURCE_PATH: ${{github.workspace}}/app/src/main/java
         with:
-          coverageCommand: make report
+          coverageCommand: ""
           coverageLocations: ${{github.workspace}}/app/build/reports/jacoco/test/jacocoTestReport.xml:jacoco
