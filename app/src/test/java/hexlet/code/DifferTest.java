@@ -27,21 +27,21 @@ public class DifferTest {
                   + verbose: true
                 }""";
 
-    private static Map<String, Object> FIRST_FILE_CONTENTS;
-    private static Map<String, Object> SECOND_FILE_CONTENTS;
+    private static Map<String, Object> firstFileContents;
+    private static Map<String, Object> secondFileContents;
 
     @BeforeAll
     public static void setupMaps() {
-        FIRST_FILE_CONTENTS = new HashMap<>();
-        FIRST_FILE_CONTENTS.put("host", "hexlet.io");
-        FIRST_FILE_CONTENTS.put("timeout", 50);
-        FIRST_FILE_CONTENTS.put("proxy", "123.234.53.22");
-        FIRST_FILE_CONTENTS.put("follow", false);
+        firstFileContents = new HashMap<>();
+        firstFileContents.put("host", "hexlet.io");
+        firstFileContents.put("timeout", 50);
+        firstFileContents.put("proxy", "123.234.53.22");
+        firstFileContents.put("follow", false);
 
-        SECOND_FILE_CONTENTS = new HashMap<>();
-        SECOND_FILE_CONTENTS.put("timeout", 20);
-        SECOND_FILE_CONTENTS.put("verbose", true);
-        SECOND_FILE_CONTENTS.put("host", "hexlet.io");
+        secondFileContents = new HashMap<>();
+        secondFileContents.put("timeout", 20);
+        secondFileContents.put("verbose", true);
+        secondFileContents.put("host", "hexlet.io");
     }
 
     @Test
@@ -56,12 +56,12 @@ public class DifferTest {
 
     @Test
     public void testCastingStringToMap1() throws Exception {
-        assertThat(Utils.castFileContentsIntoMap(FIRST_JSON_FILE_PATH)).isEqualTo(FIRST_FILE_CONTENTS);
+        assertThat(Utils.castFileContentsIntoMap(FIRST_JSON_FILE_PATH)).isEqualTo(firstFileContents);
     }
 
     @Test
     public void testCastingStringToMap2() throws Exception {
-        assertThat(Utils.castFileContentsIntoMap(SECOND_JSON_FILE_PATH)).isEqualTo(SECOND_FILE_CONTENTS);
+        assertThat(Utils.castFileContentsIntoMap(SECOND_JSON_FILE_PATH)).isEqualTo(secondFileContents);
     }
 
     @Test
@@ -73,6 +73,6 @@ public class DifferTest {
 
     @Test
     public void testYamlParser() throws Exception {
-        assertThat(Parser.yamlFileToMap(FIRST_YAML_FILE_PATH)).isEqualTo(FIRST_FILE_CONTENTS);
+        assertThat(Parser.yamlFileToMap(FIRST_YAML_FILE_PATH)).isEqualTo(firstFileContents);
     }
 }

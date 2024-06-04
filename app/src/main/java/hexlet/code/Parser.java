@@ -46,8 +46,12 @@ public class Parser {
 
     public static Map<String, Object> fileToMap(Path path) throws Exception {
         String fileExtension = findFileExtension(path);
-        if (fileExtension.equals(JSON)) return Utils.parse(path);
-        if (fileExtension.equals(YAML)) return yamlFileToMap(path);
+        if (fileExtension.equals(JSON)) {
+            return Utils.parse(path);
+        }
+        if (fileExtension.equals(YAML)) {
+            return yamlFileToMap(path);
+        }
         throw new Exception("this \"" + fileExtension + "\" file type is not supported by this program");
     }
 
