@@ -2,6 +2,7 @@ package hexlet.code;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -26,16 +27,6 @@ public class DifferTest {
                   + verbose: true
                 }""";
 
-    @Test
-    public void testGenerateJsonFile() throws Exception {
-        assertThat(Differ.generate(FIRST_JSON_FILE_PATH, SECOND_JSON_FILE_PATH)).isEqualTo(EXPECTED_DIFF);
-    }
-
-    @Test
-    public void testGenerateJsonYaml() throws Exception {
-        assertThat(Differ.generate(FIRST_YAML_FILE_PATH, SECOND_YAML_FILE_PATH)).isEqualTo(EXPECTED_DIFF);
-    }
-
     private static Map<String, Object> FIRST_FILE_CONTENTS;
     private static Map<String, Object> SECOND_FILE_CONTENTS;
 
@@ -54,6 +45,16 @@ public class DifferTest {
     }
 
     @Test
+    public void testGenerateJson() throws Exception {
+        assertThat(Differ.generate(FIRST_JSON_FILE_PATH, SECOND_JSON_FILE_PATH)).isEqualTo(EXPECTED_DIFF);
+    }
+
+    @Test
+    public void testGenerateYaml() throws Exception {
+        assertThat(Differ.generate(FIRST_YAML_FILE_PATH, SECOND_YAML_FILE_PATH)).isEqualTo(EXPECTED_DIFF);
+    }
+
+    @Test
     public void testCastingStringToMap1() throws Exception {
         assertThat(Utils.castFileContentsIntoMap(FIRST_JSON_FILE_PATH)).isEqualTo(FIRST_FILE_CONTENTS);
     }
@@ -61,5 +62,17 @@ public class DifferTest {
     @Test
     public void testCastingStringToMap2() throws Exception {
         assertThat(Utils.castFileContentsIntoMap(SECOND_JSON_FILE_PATH)).isEqualTo(SECOND_FILE_CONTENTS);
+    }
+
+    @Test
+    public void testFileExtensionFinder() {
+        assertThat(Parser.findFileExtension(FIRST_JSON_FILE_PATH)).isEqualTo("json");
+        assertThat(Parser.findFileExtension(FIRST_YAML_FILE_PATH)).isEqualTo("yml");
+        //other file extensions
+    }
+
+    @Test
+    public void testYamlParser() throws Exception {
+        assertThat(Parser.yamlFileToMap(FIRST_YAML_FILE_PATH)).isEqualTo(FIRST_FILE_CONTENTS);
     }
 }
