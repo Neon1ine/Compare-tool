@@ -16,21 +16,7 @@ public class Differ {
         Map<String, Object> contents2 = Parser.parse(path2);
         List<List<String>> output = makeDiffMap(contents1, contents2);
         output.sort(Comparator.comparing(line -> line.get(0).substring(2)));
-        return listToString(output);
-    }
-
-    private static String listToString(List<List<String>> output) {
-        StringBuilder result = new StringBuilder();
-        result.append("{\n");
-        output.stream()
-                .forEach(line -> result
-                        .append("  ")
-                        .append(line.get(0))
-                        .append(line.get(1))
-                        .append(line.get(2))
-                        .append("\n"));
-        result.append("}");
-        return result.toString();
+        return Formatter.convert(output, App.getFormat());
     }
 
     public static List<List<String>> makeDiffMap(Map<String, Object> map1, Map<String, Object> map2) {

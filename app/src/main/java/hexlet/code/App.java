@@ -43,6 +43,10 @@ public class App implements Callable {
         return fixPath(filepath2);
     }
 
+    public static String getFormat() {
+        return format;
+    }
+
     private static Path fixPath(String path) {
         String newPath = "./src/test/resources/" + path;
         return Paths.get(newPath).toAbsolutePath().normalize();
