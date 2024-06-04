@@ -47,7 +47,7 @@ public class DifferTest {
     }
 
     @Test
-    public void testGetLine(){
+    public void testGetLine() {
         List<String> expected = new ArrayList<>();
         expected.add("+ key2");
         expected.add(": ");

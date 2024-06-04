@@ -33,7 +33,7 @@ public class Differ {
         return result.toString();
     }
 
-    public static List<List<String>> makeDiffMap(Map<String, Object> map1, Map<String, Object> map2){
+    public static List<List<String>> makeDiffMap(Map<String, Object> map1, Map<String, Object> map2) {
         List<List<String>> result = new ArrayList<>();
         map1.forEach((key, value) -> {
             Object valueNew = map2.get(key);

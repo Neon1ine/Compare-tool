@@ -27,7 +27,7 @@ public class Parser {
             throw new Exception("this '" + fileExtension + "' file type is not supported by this program");
         }
         String content = Files.readString(path);
-        return mapper.readValue(content, new TypeReference<Map<String, Object>>() {});
+        return mapper.readValue(content, new TypeReference<Map<String, Object>>() { });
     }
 
     public static String findFileExtension(Path path) {
