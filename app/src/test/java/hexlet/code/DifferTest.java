@@ -1,20 +1,16 @@
 package hexlet.code;
 
-import hexlet.code.format.Json;
-import hexlet.code.format.Plain;
-
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-import static hexlet.code.Differ.makeDiffList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DifferTest {
@@ -63,28 +59,31 @@ public class DifferTest {
         assertThat(actual).isEqualTo(expected);
     }
 
-    private List<List<String>> output;
-
-    private void initForFormatter() throws Exception {
-        Map<String, Object> contents1 = Parser.parse(FIRST_JSON_FILE_PATH);
-        Map<String, Object> contents2 = Parser.parse(SECOND_JSON_FILE_PATH);
-        output = makeDiffList(contents1, contents2);
-        output.sort(Comparator.comparing(line -> line.get(0).substring(2)));
-    }
-
     @Test
     public void testPlainFormatter() throws Exception {
-        initForFormatter();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        App.setFilepath1(FIRST_JSON_FILE_PATH.toString());
+        App.setFilepath2(SECOND_JSON_FILE_PATH.toString());
+        App.setFormat("plain");
+        App app = new App();
+        app.call();
+        String actual = outContent.toString().trim();
         String expected = Files.readString(DIFF_FILE_PATH_PLAIN);
-        String actual = Plain.getString(output);
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     public void testJsonFormatter() throws Exception {
-        initForFormatter();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        App.setFilepath1(FIRST_JSON_FILE_PATH.toString());
+        App.setFilepath2(SECOND_JSON_FILE_PATH.toString());
+        App.setFormat("json");
+        App app = new App();
+        app.call();
+        String actual = outContent.toString().trim();
         String expected = Files.readString(DIFF_FILE_PATH_JSON);
-        String actual = Json.getString(output);
         assertThat(actual).isEqualTo(expected);
     }
 

@@ -8,13 +8,12 @@ import java.util.List;
 public class Formatter {
 
     public static String convert(List<List<String>> outputList, String format) throws Exception {
-        String result = switch (fixFormat(format)) {
+        return switch (fixFormat(format)) {
             case "plain" -> Plain.getString(outputList);
             case "json" -> Json.getString(outputList);
             case "stylish" -> Stylish.getString(outputList);
             default -> throw new IllegalStateException("Unexpected format: " + format);
         };
-        return result;
     }
 
     private static String fixFormat(String format) {
