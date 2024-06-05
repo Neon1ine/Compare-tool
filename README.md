@@ -3,12 +3,15 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/17ca376b3163a2e29f24/maintainability)](https://codeclimate.com/github/Neon1ine/java-project-71/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/17ca376b3163a2e29f24/test_coverage)](https://codeclimate.com/github/Neon1ine/java-project-71/test_coverage)
 
-### examples: 
-json files difference (step 5)
-[![asciicast](https://asciinema.org/a/4eAInCYs2m8jZmEbB723mUlP2.svg)](https://asciinema.org/a/4eAInCYs2m8jZmEbB723mUlP2)
+### examples:
+files difference with plain output (step 9)
+[![asciicast](https://asciinema.org/a/662587.svg)](https://asciinema.org/a/662587)
+
+complicated json files difference with stylish output (step 8)
+[![asciicast](https://asciinema.org/a/662578.svg)](https://asciinema.org/a/662578)
 
 yml files difference (step 7)
 [![asciicast](https://asciinema.org/a/662508.svg)](https://asciinema.org/a/662508)
 
-complicated json files difference with stylish output (step 8)
-[![asciicast](https://asciinema.org/a/662578.svg)](https://asciinema.org/a/662578)
+json files difference (step 5)
+[![asciicast](https://asciinema.org/a/4eAInCYs2m8jZmEbB723mUlP2.svg)](https://asciinema.org/a/4eAInCYs2m8jZmEbB723mUlP2)

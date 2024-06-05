@@ -8,18 +8,22 @@ import java.util.Map;
 public class Differ {
 
     public static String findDiff() throws Exception {
-        return generate(App.getFilePath1(), App.getFilePath2());
+        return generate(App.getFilePath1(), App.getFilePath2(), App.getFormat());
     }
 
-    public static String generate(Path path1, Path path2) throws Exception {
+    public static String generate(Path path1, Path path2, String format) throws Exception {
         Map<String, Object> contents1 = Parser.parse(path1);
         Map<String, Object> contents2 = Parser.parse(path2);
-        List<List<String>> output = makeDiffMap(contents1, contents2);
-        output.sort(Comparator.comparing(line -> line.get(0).substring(2)));
-        return Formatter.convert(output, App.getFormat());
+        List<List<String>> output = sortList(makeDiffList(contents1, contents2));
+        return Formatter.convert(output, format);
     }
 
-    public static List<List<String>> makeDiffMap(Map<String, Object> map1, Map<String, Object> map2) {
+    public static List<List<String>> sortList(List<List<String>> list) {
+        list.sort(Comparator.comparing(line -> line.get(0).substring(2)));
+        return list;
+    }
+
+    public static List<List<String>> makeDiffList(Map<String, Object> map1, Map<String, Object> map2) {
         List<List<String>> result = new ArrayList<>();
         map1.forEach((key, value) -> {
             Object valueNew = map2.get(key);
