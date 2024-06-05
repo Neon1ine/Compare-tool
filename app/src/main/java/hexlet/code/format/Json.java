@@ -10,7 +10,6 @@ import java.util.Map;
 public class Json {
 
     public static String getString(List<List<String>> output) throws Exception {
-
         Map<String, List<String>> map = Differ.getDiffMap(output);
         StringBuilder result = new StringBuilder();
         result.append("[");

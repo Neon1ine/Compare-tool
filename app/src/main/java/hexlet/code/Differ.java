@@ -1,11 +1,7 @@
 package hexlet.code;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 
 public class Differ {
 
@@ -13,11 +9,11 @@ public class Differ {
         return generate(App.getFilePath1(), App.getFilePath2(), App.getFormat());
     }
 
-    public static String generate(Path path1, Path path2, String format) throws Exception {
+    public static String generate(Path path1, Path path2, String... format) throws Exception {
         Map<String, Object> contents1 = Parser.parse(path1);
         Map<String, Object> contents2 = Parser.parse(path2);
         List<List<String>> output = sortList(makeDiffList(contents1, contents2));
-        return Formatter.convert(output, format);
+        return Formatter.convert(output, Arrays.toString(format));
     }
 
     public static List<List<String>> sortList(List<List<String>> list) {

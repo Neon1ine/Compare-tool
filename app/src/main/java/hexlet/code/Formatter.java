@@ -8,8 +8,7 @@ import java.util.List;
 public class Formatter {
 
     public static String convert(List<List<String>> outputList, String format) throws Exception {
-
-        if (format == null) {
+        if (format == null || format.isEmpty()) {
             format = "stylish";
         }
         String result = switch (format) {

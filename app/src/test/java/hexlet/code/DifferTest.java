@@ -43,7 +43,7 @@ public class DifferTest {
     @Test
     public void testGenerateYaml() throws Exception {
         initStylishDiff();
-        String actual = Differ.generate(FIRST_YAML_FILE_PATH, SECOND_YAML_FILE_PATH, "stylish");
+        String actual = Differ.generate(FIRST_YAML_FILE_PATH, SECOND_YAML_FILE_PATH);
         assertThat(actual).isEqualTo(expectedDiff);
     }
 
