@@ -4,6 +4,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/17ca376b3163a2e29f24/test_coverage)](https://codeclimate.com/github/Neon1ine/java-project-71/test_coverage)
 
 ### examples:
+files difference with json output (step 10)
+[![asciicast](https://asciinema.org/a/662662.svg)](https://asciinema.org/a/662662)
+
 files difference with plain output (step 9)
 [![asciicast](https://asciinema.org/a/662587.svg)](https://asciinema.org/a/662587)
 
