@@ -11,12 +11,14 @@ import java.util.HashMap;
 public class Differ {
 
     public static String findDiff() throws Exception {
-        return generate(App.getFilePath1(), App.getFilePath2(), App.getFormat());
+        Path path1 = App.getFilePath1();
+        Path path2 = App.getFilePath2();
+        return generate(path1.toString(), path2.toString(), App.getFormat());
     }
 
-    public static String generate(Path path1, Path path2, String... format) throws Exception {
-        Map<String, Object> contents1 = Parser.parse(path1);
-        Map<String, Object> contents2 = Parser.parse(path2);
+    public static String generate(String path1, String path2, String... format) throws Exception {
+        Map<String, Object> contents1 = Parser.parse(Path.of(path1));
+        Map<String, Object> contents2 = Parser.parse(Path.of(path2));
         List<List<String>> output = sortList(makeDiffList(contents1, contents2));
         return Formatter.convert(output, Arrays.toString(format));
     }

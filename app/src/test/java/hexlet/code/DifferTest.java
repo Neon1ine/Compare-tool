@@ -36,14 +36,14 @@ public class DifferTest {
     @Test
     public void testGenerateJson() throws Exception {
         initStylishDiff();
-        String actual = Differ.generate(FIRST_JSON_FILE_PATH, SECOND_JSON_FILE_PATH, "stylish");
+        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString());
         assertThat(actual).isEqualTo(expectedDiff);
     }
 
     @Test
     public void testGenerateYaml() throws Exception {
         initStylishDiff();
-        String actual = Differ.generate(FIRST_YAML_FILE_PATH, SECOND_YAML_FILE_PATH);
+        String actual = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString());
         assertThat(actual).isEqualTo(expectedDiff);
     }
 
