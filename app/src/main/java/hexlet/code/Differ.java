@@ -1,9 +1,11 @@
 package hexlet.code;
+
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 public class Differ {
 
@@ -66,5 +68,29 @@ public class Differ {
         }
         oneLine.add(value.toString());
         return oneLine;
+    }
+
+    public static Map<String, List<String>> getDiffMap(List<List<String>> bigList) {
+        Map<String, List<String>> result = new HashMap<>();
+        bigList.stream()
+                .forEach(line -> {
+                    char sign = line.get(0).charAt(0);
+                    String name;
+                    if (Character.isLetter(sign)) {
+                        name = line.get(0);
+                    } else {
+                        name = line.get(0).substring(2);
+                    }
+                    String content = line.get(2);
+                    if (!result.containsKey(name)) {
+                        List<String> values = new ArrayList<>();
+                        values.add(String.valueOf(sign));
+                        values.add(content);
+                        result.put(name, values);
+                    } else {
+                        result.get(name).add(content);
+                    }
+                });
+        return result;
     }
 }
