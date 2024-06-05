@@ -8,13 +8,15 @@ import java.util.List;
 public class Formatter {
 
     public static String convert(List<List<String>> outputList, String format) throws Exception {
-        if (format == null || format.isEmpty()) {
+        format = format.toLowerCase().trim();
+        if (format.isEmpty() || format.equals("[]")) {
             format = "stylish";
         }
         String result = switch (format) {
             case "plain" -> Plain.getString(outputList);
             case "json" -> Json.getString(outputList);
-            default -> Stylish.getString(outputList);
+            case "stylish" -> Stylish.getString(outputList);
+            default -> throw new IllegalStateException("Unexpected format: " + format);
         };
         return result;
     }
