@@ -60,12 +60,7 @@ public class App implements Callable {
     }
 
     private static Path fixPath(String path) {
-        String newPath;
-        if (path.contains("./src/test/resources/")) {
-            newPath = path;
-        } else {
-            newPath = "./src/test/resources/" + path;
-        }
-        return Paths.get(newPath).toAbsolutePath().normalize();
+        //path = "./src/test/resources/" + path;
+        return Paths.get(path).toAbsolutePath().normalize();
     }
 }
