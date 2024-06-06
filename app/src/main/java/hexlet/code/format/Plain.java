@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class Plain {
 
+    public static final int LIST_MAX_SIZE = 3;
+
     public static String getString(List<List<String>> output) {
         Map<String, List<String>> map = Differ.getDiffMap(output);
         StringBuilder result = new StringBuilder();
@@ -14,7 +16,7 @@ public class Plain {
             String name = line.get(0).substring(2);
             if (map.containsKey(name)) {
                 Object data1 = toSimpleObject(map.get(name).get(1));
-                if (map.get(name).size() == 3) {
+                if (map.get(name).size() == LIST_MAX_SIZE) {
                     Object data2 = toSimpleObject(map.get(name).get(2));
                     result.append("Property '").append(name).append("' was updated. From ")
                             .append(data1).append(" to ").append(data2).append("\n");

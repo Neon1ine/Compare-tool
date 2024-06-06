@@ -17,7 +17,7 @@ public class Json {
             String name = line.get(0).substring(2);
             if (map.containsKey(name)) {
                 Object data1 = toObject(map.get(name).get(1));
-                if (map.get(name).size() == 3) {
+                if (map.get(name).size() == Plain.LIST_MAX_SIZE) {
                     Object data2 = toObject(map.get(name).get(2));
                     result.append(oneDiffToStr(name, data1, data2, "changed"));
                 } else if (map.get(name).get(0).charAt(0) == '-') {
