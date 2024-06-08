@@ -23,28 +23,18 @@ public final class App implements Callable {
             defaultValue = "stylish", paramLabel = "format")
     private static String format;
 
+    private static int exitCode;
+
     @Override
     public String call() throws Exception {
-        String diff = Differ.findDiff();
+        String diff = Differ.generate(getFilePath1().toString(), getFilePath2().toString(), format);
         System.out.println(diff);
-        return diff;
+        return String.valueOf(exitCode);
     }
 
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new App()).execute(args);
+        exitCode = new CommandLine(new App()).execute(args);
         System.exit(exitCode);
-    }
-
-    public static void setFilepath1(String filepath1) {
-        App.filepath1 = filepath1;
-    }
-
-    public static void setFilepath2(String filepath2) {
-        App.filepath2 = filepath2;
-    }
-
-    public static void setFormat(String format) {
-        App.format = format;
     }
 
     public static Path getFilePath1() {

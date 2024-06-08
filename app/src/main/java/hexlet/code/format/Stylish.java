@@ -1,26 +1,41 @@
 package hexlet.code.format;
 
 import java.util.List;
+import java.util.Map;
 
 public class Stylish {
 
-    public static String getString(List<List<String>> output) {
+    public static String getString(List<Map<String, Object>> output) {
         StringBuilder result = new StringBuilder();
         result.append("{\n");
-        output.stream()
-                .forEach(line -> {
-                    result.append("  ");
-                    if (line.get(0).charAt(0) != '-' && line.get(0).charAt(0) != '+') {
-                        result.append("  ");
-                    }
-                    result
-                        .append(line.get(0))
-                        .append(line.get(1))
-                        .append(line.get(2))
-                        .append("\n");
-                });
+        output.forEach(map -> {
+            String name = map.get("name").toString();
+            String type = map.get("type").toString();
+            Object value1 = map.get("oldValue");
+            Object value2 = map.get("newValue");
+            if (type.equals("unchanged")) {
+                result.append("    ").append(name).append(": ").append(toSimpleString(value1)).append("\n");
+            } else if (type.equals("changed")) {
+                result.append("  - ").append(name).append(": ").append(toSimpleString(value1)).append("\n");
+                result.append("  + ").append(name).append(": ").append(toSimpleString(value2)).append("\n");
+            } else if (type.equals("deleted")) {
+                result.append("  - ").append(name).append(": ").append(toSimpleString(value1)).append("\n");
+            } else if (type.equals("added")) {
+                result.append("  + ").append(name).append(": ").append(toSimpleString(value2)).append("\n");
+            } else {
+                throw new IllegalStateException("Unexpected format: " + type);
+            }
+        });
         result.append("}");
         return result.toString();
+    }
+
+    private static String toSimpleString(Object obj) {
+        try {
+            return obj.toString();
+        } catch (Exception e) {
+            return "null";
+        }
     }
 
 }

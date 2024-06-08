@@ -2,14 +2,10 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,44 +41,20 @@ public class DifferTest {
 
     @Test
     public void testFileExtensionFinder() {
-        assertThat(Parser.findFileExtension(FIRST_JSON_FILE_PATH)).isEqualTo("json");
-        assertThat(Parser.findFileExtension(FIRST_YAML_FILE_PATH)).isEqualTo("yml");
-    }
-
-    @Test
-    public void testGetLine() {
-        List<String> expected = new ArrayList<>();
-        expected.add("+ key2");
-        expected.add(": ");
-        expected.add("value2");
-        List<String> actual = Differ.getLine("+ key2", "value2");
-        assertThat(actual).isEqualTo(expected);
+        assertThat(Differ.findFileExtension(FIRST_JSON_FILE_PATH)).isEqualTo("json");
+        assertThat(Differ.findFileExtension(FIRST_YAML_FILE_PATH)).isEqualTo("yml");
     }
 
     @Test
     public void testPlainFormatter() throws Exception {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        App.setFilepath1(FIRST_JSON_FILE_PATH.toString());
-        App.setFilepath2(SECOND_JSON_FILE_PATH.toString());
-        App.setFormat("plain");
-        App app = new App();
-        app.call();
-        String actual = outContent.toString().trim();
+        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "plain");
         String expected = Files.readString(DIFF_FILE_PATH_PLAIN);
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     public void testJsonFormatter() throws Exception {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        App.setFilepath1(FIRST_JSON_FILE_PATH.toString());
-        App.setFilepath2(SECOND_JSON_FILE_PATH.toString());
-        App.setFormat("json");
-        App app = new App();
-        app.call();
-        String actual = outContent.toString().trim();
+        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "json");
         String expected = Files.readString(DIFF_FILE_PATH_JSON);
         assertThat(actual).isEqualTo(expected);
     }
