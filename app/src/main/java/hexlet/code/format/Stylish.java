@@ -14,14 +14,14 @@ public class Stylish {
             Object value1 = map.get("oldValue");
             Object value2 = map.get("newValue");
             if (type.equals("unchanged")) {
-                result.append("    ").append(name).append(": ").append(toSimpleString(value1)).append("\n");
+                result.append("    ").append(name).append(": ").append(toNotNullString(value1)).append("\n");
             } else if (type.equals("changed")) {
-                result.append("  - ").append(name).append(": ").append(toSimpleString(value1)).append("\n");
-                result.append("  + ").append(name).append(": ").append(toSimpleString(value2)).append("\n");
+                result.append("  - ").append(name).append(": ").append(toNotNullString(value1)).append("\n");
+                result.append("  + ").append(name).append(": ").append(toNotNullString(value2)).append("\n");
             } else if (type.equals("deleted")) {
-                result.append("  - ").append(name).append(": ").append(toSimpleString(value1)).append("\n");
+                result.append("  - ").append(name).append(": ").append(toNotNullString(value1)).append("\n");
             } else if (type.equals("added")) {
-                result.append("  + ").append(name).append(": ").append(toSimpleString(value2)).append("\n");
+                result.append("  + ").append(name).append(": ").append(toNotNullString(value2)).append("\n");
             } else {
                 throw new IllegalStateException("Unexpected format: " + type);
             }
@@ -30,7 +30,7 @@ public class Stylish {
         return result.toString();
     }
 
-    private static String toSimpleString(Object obj) {
+    public static String toNotNullString(Object obj) {
         try {
             return obj.toString();
         } catch (Exception e) {

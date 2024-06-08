@@ -28,12 +28,7 @@ public class Plain {
     }
 
     private static String toSimpleString(Object obj) {
-        String str;
-        try {
-            str = obj.toString();
-        } catch (Exception e) {
-            return "null";
-        }
+        String str = Stylish.toNotNullString(obj);
         if (str.equals("true") || str.equals("false") || str.equals("null") || isNumeric(str)) {
             return str;
         } else if ((str.startsWith("[") || (str.startsWith("{")))) {
