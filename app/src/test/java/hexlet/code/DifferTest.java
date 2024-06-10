@@ -1,11 +1,16 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,43 +24,85 @@ public class DifferTest {
     private static final Path DIFF_FILE_PATH_PLAIN = Paths.get("./src/test/resources/plainDiff.txt");
     private static final Path DIFF_FILE_PATH_JSON = Paths.get("./src/test/resources/jsonDiff.json");
 
-    private static String expectedDiff;
-
-    private void initStylishDiff() throws IOException {
-        expectedDiff = Files.readString(DIFF_FILE_PATH_STYLISH);
-    }
-
     @Test
-    public void testGenerateJson() throws Exception {
-        initStylishDiff();
+    public void testGenerateStylishFromJson() throws Exception {
         String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString());
-        assertThat(actual).isEqualTo(expectedDiff);
-    }
-
-    @Test
-    public void testGenerateYaml() throws Exception {
-        initStylishDiff();
-        String actual = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString());
-        assertThat(actual).isEqualTo(expectedDiff);
-    }
-
-    @Test
-    public void testFileExtensionFinder() {
-        assertThat(Differ.findFileExtension(FIRST_JSON_FILE_PATH)).isEqualTo("json");
-        assertThat(Differ.findFileExtension(FIRST_YAML_FILE_PATH)).isEqualTo("yml");
-    }
-
-    @Test
-    public void testPlainFormatter() throws Exception {
-        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "plain");
-        String expected = Files.readString(DIFF_FILE_PATH_PLAIN);
+        String expected = Files.readString(DIFF_FILE_PATH_STYLISH);
+        assertThat(actual).isEqualTo(expected);
+        actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "stylish");
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
-    public void testJsonFormatter() throws Exception {
-        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "json");
-        String expected = Files.readString(DIFF_FILE_PATH_JSON);
+    public void testGenerateStylishFromYaml() throws Exception {
+        String actual = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString());
+        String expected = Files.readString(DIFF_FILE_PATH_STYLISH);
+        assertThat(actual).isEqualTo(expected);
+        actual = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString(), "stylish");
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateStylishFromDifferentFiles() throws Exception {
+        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString());
+        String expected = Files.readString(DIFF_FILE_PATH_STYLISH);
+        assertThat(actual).isEqualTo(expected);
+        actual = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString());
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGeneratePlainFromJson() throws Exception {
+        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "plain");
+        assertThat(actual).isEqualTo(Files.readString(DIFF_FILE_PATH_PLAIN));
+    }
+
+    @Test
+    public void testGeneratePlainFromYaml() throws Exception {
+        String actual = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString(), "plain");
+        assertThat(actual).isEqualTo(Files.readString(DIFF_FILE_PATH_PLAIN));
+    }
+
+    @Test
+    public void testGeneratePlainFromDifferentFiles() throws Exception {
+        String actual = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString(), "plain");
+        String expected = Files.readString(DIFF_FILE_PATH_PLAIN);
+        assertThat(actual).isEqualTo(expected);
+        actual = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "plain");
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateJsonFormatFromJsonFiles() throws Exception {
+        String actualJson = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "json");
+        String expectedJson = Files.readString(DIFF_FILE_PATH_JSON);
+        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    public void testGenerateJsonFormatFromYamlFiles() throws Exception {
+        String actualJson = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString(), "json");
+        String expectedJson = Files.readString(DIFF_FILE_PATH_JSON);
+        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    public void testGenerateJsonFormatFromDifferentFiles() throws Exception {
+        String actualJson = Differ.generate(FIRST_JSON_FILE_PATH.toString(), SECOND_YAML_FILE_PATH.toString(), "json");
+        String expectedJson = Files.readString(DIFF_FILE_PATH_JSON);
+        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.STRICT);
+        actualJson = Differ.generate(FIRST_YAML_FILE_PATH.toString(), SECOND_JSON_FILE_PATH.toString(), "json");
+        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    public void testMakeJsonDiffList() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> contents1 = Parser.parse(Files.readString(FIRST_JSON_FILE_PATH), "json");
+        Map<String, Object> contents2 = Parser.parse(Files.readString(SECOND_JSON_FILE_PATH), "json");
+        List<Map<String, Object>> actual = Utils.makeDiffList(contents1, contents2);
+        List<Map<String, Object>> expected = mapper.readValue(Files.readString(DIFF_FILE_PATH_JSON),
+                new TypeReference<List<Map<String, Object>>>() { });
         assertThat(actual).isEqualTo(expected);
     }
 

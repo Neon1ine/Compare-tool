@@ -8,14 +8,12 @@ import java.util.Map;
 
 public class Parser {
 
-    private static final String JSON = "json";
-    private static final String YAML = "yml";
-
     public static Map<String, Object> parse(String content, String fileExtension) throws Exception {
         ObjectMapper mapper;
-        if (fileExtension.equals(JSON)) {
+        //can't use switch: "Inner assignments should be avoided"
+        if (fileExtension.equals("json")) {
             mapper = new ObjectMapper();
-        } else if (fileExtension.equals(YAML)) {
+        } else if (fileExtension.equals("yaml") || fileExtension.equals("yml")) {
             mapper = new YAMLMapper();
         } else {
             throw new Exception("this '" + fileExtension + "' file type is not supported by this program");
