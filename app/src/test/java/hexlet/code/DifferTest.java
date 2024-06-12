@@ -1,7 +1,5 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -9,7 +7,6 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -97,13 +94,11 @@ public class DifferTest {
 
     @Test
     public void testMakeJsonDiffList() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> contents1 = Parser.parse(Files.readString(FIRST_JSON_FILE_PATH), "json");
         Map<String, Object> contents2 = Parser.parse(Files.readString(SECOND_JSON_FILE_PATH), "json");
-        List<Map<String, Object>> actual = Utils.makeDiffList(contents1, contents2);
-        List<Map<String, Object>> expected = mapper.readValue(Files.readString(DIFF_FILE_PATH_JSON),
-                new TypeReference<List<Map<String, Object>>>() { });
-        assertThat(actual).isEqualTo(expected);
+        String actualJson = Formatter.convert(Utils.makeDiffList(contents1, contents2), "json");
+        String expectedJson = Files.readString(DIFF_FILE_PATH_JSON);
+        JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.STRICT);
     }
 
 }

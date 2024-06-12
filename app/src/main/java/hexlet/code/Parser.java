@@ -9,15 +9,11 @@ import java.util.Map;
 public class Parser {
 
     public static Map<String, Object> parse(String content, String fileExtension) throws Exception {
-        ObjectMapper mapper;
-        //can't use switch: "Inner assignments should be avoided"
-        if (fileExtension.equals("json")) {
-            mapper = new ObjectMapper();
-        } else if (fileExtension.equals("yaml") || fileExtension.equals("yml")) {
-            mapper = new YAMLMapper();
-        } else {
-            throw new Exception("this '" + fileExtension + "' file type is not supported by this program");
-        }
+        ObjectMapper mapper = switch (fileExtension) {
+            case "json" -> new ObjectMapper();
+            case "yaml", "yml" -> new YAMLMapper();
+            default -> throw new Exception("this '" + fileExtension + "' file type is not supported by this program");
+        };
         return mapper.readValue(content, new TypeReference<Map<String, Object>>() { });
     }
 

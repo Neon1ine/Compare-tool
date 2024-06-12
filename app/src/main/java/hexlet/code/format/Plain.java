@@ -1,7 +1,10 @@
 package hexlet.code.format;
 
+import hexlet.code.Utils;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Plain {
 
@@ -10,8 +13,8 @@ public class Plain {
         output.forEach(map -> {
             String name = map.get("name").toString();
             String type = map.get("type").toString();
-            String value1 = toSimpleString(map.get("oldValue"));
-            String value2 = toSimpleString(map.get("newValue"));
+            String value1 = toSimpleString(map.get(Utils.VALUE1_NAME));
+            String value2 = toSimpleString(map.get(Utils.VALUE2_NAME));
             if (type.equals("changed")) {
                 result.append("Property '").append(name).append("' was updated. From ")
                         .append(value1).append(" to ").append(value2).append("\n");
@@ -29,21 +32,12 @@ public class Plain {
 
     private static String toSimpleString(Object obj) {
         String str = Stylish.toNotNullString(obj);
-        if (str.equals("true") || str.equals("false") || str.equals("null") || isNumeric(str)) {
+        if (obj instanceof Boolean || Objects.equals(obj, null) || obj instanceof Integer) {
             return str;
-        } else if ((str.startsWith("[") || (str.startsWith("{")))) {
-            return "[complex value]";
-        } else {
+        } else if (obj instanceof String) {
             return "'" + str + "'";
-        }
-    }
-
-    public static boolean isNumeric(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+        } else {
+            return "[complex value]";
         }
     }
 }

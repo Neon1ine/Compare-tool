@@ -1,7 +1,10 @@
 package hexlet.code.format;
 
+import hexlet.code.Utils;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Stylish {
 
@@ -11,8 +14,8 @@ public class Stylish {
         output.forEach(map -> {
             String name = map.get("name").toString();
             String type = map.get("type").toString();
-            Object value1 = map.get("oldValue");
-            Object value2 = map.get("newValue");
+            Object value1 = map.get(Utils.VALUE1_NAME);
+            Object value2 = map.get(Utils.VALUE2_NAME);
             if (type.equals("unchanged")) {
                 result.append("    ").append(name).append(": ").append(toNotNullString(value1)).append("\n");
             } else if (type.equals("changed")) {
@@ -31,11 +34,10 @@ public class Stylish {
     }
 
     public static String toNotNullString(Object obj) {
-        try {
-            return obj.toString();
-        } catch (Exception e) {
+        if (Objects.equals(obj, null)) {
             return "null";
         }
+        return obj.toString();
     }
 
 }

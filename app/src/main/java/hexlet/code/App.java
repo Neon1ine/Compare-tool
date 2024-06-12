@@ -27,6 +27,7 @@ public final class App implements Callable {
         try {
             diff = Differ.generate(filepath1, filepath2, format);
         } catch (Exception e) {
+            System.err.println("Exception in App.java method call()");
             return 1;
         }
         System.out.println(diff);
