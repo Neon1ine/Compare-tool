@@ -2,6 +2,7 @@ package hexlet.code.format;
 
 import hexlet.code.Utils;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,13 +33,13 @@ public class Plain {
     }
 
     private static String toSimpleString(Object obj) {
-        String str = Stylish.toNotNullString(obj);
+        String str = String.valueOf(obj);
         if (obj instanceof Boolean || Objects.equals(obj, null) || obj instanceof Integer) {
             return str;
-        } else if (obj instanceof String) {
-            return "'" + str + "'";
-        } else {
+        } else if (obj instanceof Collection<?> || obj instanceof Map<?, ?>) {
             return "[complex value]";
+        } else {
+            return "'" + str + "'";
         }
     }
 }
