@@ -23,7 +23,7 @@ public class Differ {
     }
 
     private static String findFileExtension(Path path) {
-        String str = path.toString();
+        String str = path.toString().trim().toLowerCase();
         int index = str.lastIndexOf('.');
         return str.substring(index + 1);
     }

@@ -14,17 +14,20 @@ public class Stylish {
         output.forEach(map -> {
             String name = map.get("name").toString();
             String type = map.get("type").toString();
-            Object value1 = map.get(Utils.VALUE1_NAME);
-            Object value2 = map.get(Utils.VALUE2_NAME);
             if (type.equals("unchanged")) {
-                result.append("    ").append(name).append(": ").append(toNotNullString(value1)).append("\n");
+                result.append("    ").append(name).append(": ")
+                        .append(toNotNullString(map.get(Utils.VALUE_NAME))).append("\n");
             } else if (type.equals("changed")) {
-                result.append("  - ").append(name).append(": ").append(toNotNullString(value1)).append("\n");
-                result.append("  + ").append(name).append(": ").append(toNotNullString(value2)).append("\n");
+                result.append("  - ").append(name).append(": ")
+                        .append(toNotNullString(map.get(Utils.VALUE1_NAME))).append("\n");
+                result.append("  + ").append(name).append(": ")
+                        .append(toNotNullString(map.get(Utils.VALUE2_NAME))).append("\n");
             } else if (type.equals("deleted")) {
-                result.append("  - ").append(name).append(": ").append(toNotNullString(value1)).append("\n");
+                result.append("  - ").append(name).append(": ")
+                        .append(toNotNullString(map.get(Utils.VALUE_NAME))).append("\n");
             } else if (type.equals("added")) {
-                result.append("  + ").append(name).append(": ").append(toNotNullString(value2)).append("\n");
+                result.append("  + ").append(name).append(": ")
+                        .append(toNotNullString(map.get(Utils.VALUE_NAME))).append("\n");
             } else {
                 throw new IllegalStateException("Unexpected format: " + type);
             }

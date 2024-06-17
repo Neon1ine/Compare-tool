@@ -11,8 +11,9 @@ import java.util.Objects;
 
 public class Utils {
 
-    public static final String VALUE1_NAME = "oldValue";
-    public static final String VALUE2_NAME = "newValue";
+    public static final String VALUE1_NAME = "value1";
+    public static final String VALUE2_NAME = "value2";
+    public static final String VALUE_NAME = "value";
 
     public static List<Map<String, Object>> makeDiffList(Map<String, Object> map1, Map<String, Object> map2) {
         List<Map<String, Object>> result = new ArrayList<>();
@@ -22,13 +23,13 @@ public class Utils {
             element.put("name", key);
             if (!map2.containsKey(key)) {
                 type = "deleted";
-                element.put(VALUE1_NAME, map1.get(key));
+                element.put(VALUE_NAME, map1.get(key)); //first
             } else if (!map1.containsKey(key)) {
                 type = "added";
-                element.put(VALUE2_NAME, map2.get(key));
+                element.put(VALUE_NAME, map2.get(key)); //second
             } else if (Objects.equals(map1.get(key), map2.get(key))) {
                 type = "unchanged";
-                element.put(VALUE1_NAME, map1.get(key));
+                element.put(VALUE_NAME, map1.get(key)); //first
             } else {
                 element.put(VALUE2_NAME, map2.get(key));
                 element.put(VALUE1_NAME, map1.get(key));

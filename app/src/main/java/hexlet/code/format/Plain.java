@@ -13,16 +13,17 @@ public class Plain {
         output.forEach(map -> {
             String name = map.get("name").toString();
             String type = map.get("type").toString();
-            String value1 = toSimpleString(map.get(Utils.VALUE1_NAME));
-            String value2 = toSimpleString(map.get(Utils.VALUE2_NAME));
             if (type.equals("changed")) {
+                String value1 = toSimpleString(map.get(Utils.VALUE1_NAME));
+                String value2 = toSimpleString(map.get(Utils.VALUE2_NAME));
                 result.append("Property '").append(name).append("' was updated. From ")
                         .append(value1).append(" to ").append(value2).append("\n");
             } else if (type.equals("deleted")) {
                 result.append("Property '").append(name).append("' was removed").append("\n");
             } else if (type.equals("added")) {
+                String value = toSimpleString(map.get(Utils.VALUE_NAME));
                 result.append("Property '").append(name).append("' was added with value: ")
-                    .append(value2).append("\n");
+                    .append(value).append("\n");
             } else if (!type.equals("unchanged")) {
                 throw new IllegalStateException("Unexpected format: " + type);
             }
