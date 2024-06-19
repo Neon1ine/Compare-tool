@@ -14,19 +14,21 @@ public class Plain {
         output.forEach(map -> {
             String name = map.get("name").toString();
             String type = map.get("type").toString();
-            if (type.equals("changed")) {
-                String value1 = toSimpleString(map.get(Utils.VALUE1_NAME));
-                String value2 = toSimpleString(map.get(Utils.VALUE2_NAME));
-                result.append("Property '").append(name).append("' was updated. From ")
-                        .append(value1).append(" to ").append(value2).append("\n");
-            } else if (type.equals("deleted")) {
-                result.append("Property '").append(name).append("' was removed").append("\n");
-            } else if (type.equals("added")) {
-                String value = toSimpleString(map.get(Utils.VALUE_NAME));
-                result.append("Property '").append(name).append("' was added with value: ")
-                    .append(value).append("\n");
-            } else if (!type.equals("unchanged")) {
-                throw new IllegalStateException("Unexpected format: " + type);
+            switch (type) {
+                case "changed" -> {
+                    String value1 = toSimpleString(map.get(Utils.VALUE1_NAME));
+                    String value2 = toSimpleString(map.get(Utils.VALUE2_NAME));
+                    result.append("Property '").append(name).append("' was updated. From ")
+                            .append(value1).append(" to ").append(value2).append("\n");
+                }
+                case "deleted" -> result.append("Property '").append(name).append("' was removed").append("\n");
+                case "added" -> {
+                    String value = toSimpleString(map.get(Utils.VALUE_NAME));
+                    result.append("Property '").append(name).append("' was added with value: ")
+                            .append(value).append("\n");
+                }
+                case "unchanged" -> {}
+                default -> throw new IllegalStateException("Unexpected format: " + type);
             }
         });
         return result.substring(0, result.length() - 1);

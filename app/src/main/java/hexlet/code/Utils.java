@@ -23,13 +23,13 @@ public class Utils {
             element.put("name", key);
             if (!map2.containsKey(key)) {
                 type = "deleted";
-                element.put(VALUE_NAME, map1.get(key)); //first
+                element.put(VALUE_NAME, map1.get(key));
             } else if (!map1.containsKey(key)) {
                 type = "added";
-                element.put(VALUE_NAME, map2.get(key)); //second
+                element.put(VALUE_NAME, map2.get(key));
             } else if (Objects.equals(map1.get(key), map2.get(key))) {
                 type = "unchanged";
-                element.put(VALUE_NAME, map1.get(key)); //first
+                element.put(VALUE_NAME, map1.get(key));
             } else {
                 element.put(VALUE2_NAME, map2.get(key));
                 element.put(VALUE1_NAME, map1.get(key));
