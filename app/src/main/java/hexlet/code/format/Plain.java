@@ -27,7 +27,7 @@ public class Plain {
                     result.append("Property '").append(name).append("' was added with value: ")
                             .append(value).append("\n");
                 }
-                case "unchanged" -> {}
+                case "unchanged" -> { }
                 default -> throw new IllegalStateException("Unexpected format: " + type);
             }
         });
