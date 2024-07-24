@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+//Применение интеграционных тестов, например с помощью mockito, улучшит тесты.
+
 public class DifferTest {
 
     private static final Path FIRST_JSON_FILE_PATH = findPath("file1.json");
