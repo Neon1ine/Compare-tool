@@ -7,6 +7,8 @@ import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
+// Стоит добавить документацию кода посредством JavaDoc. На данный момент код сложно разбирать.
+
 @Command(name = "gendiff", mixinStandardHelpOptions = true, version = "1.0",
         description = "Compares two configuration files and shows a difference.")
 
